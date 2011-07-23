@@ -93,7 +93,7 @@ static bool zero_during_arming = false;
 static bool bias_correct_gyro = true;
 static float magBias[3];
 static float magScale[3];
-static float magVar[3];
+
 /**
  * Initialise the module, called on startup
  * \returns 0 on success or -1 if initialisation failed
@@ -266,11 +266,7 @@ static void updateSensors(AttitudeRawData * attitudeRaw)
 
     // Mag
 #if defined(PIOS_INCLUDE_HMC5883)
-    /* Configure the flexi port */
-	uint8_t hwsettings_cc_flexiport;
-	HwSettingsCC_FlexiPortGet(&hwsettings_cc_flexiport);
-	
-    if (hwsettings_cc_flexiport == HWSETTINGS_CC_FLEXIPORT_I2C && PIOS_HMC5883_NewDataAvailable()) {
+    if (PIOS_HMC5883_NewDataAvailable()) {
        	PIOS_HMC5883_ReadMag(attitudeRaw->mags);
         //todo rotation?
         attitudeRaw->mags[ATTITUDERAW_MAGS_X] = attitudeRaw->mags[ATTITUDERAW_MAGS_X] * magScale[ATTITUDESETTINGS_MAGSCALE_X] + magBias[ATTITUDESETTINGS_MAGBIAS_X];
@@ -406,10 +402,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	magScale[1] = attitudeSettings.MagScale[ATTITUDESETTINGS_MAGSCALE_Y];
 	magScale[2] = attitudeSettings.MagScale[ATTITUDESETTINGS_MAGSCALE_Z];
 	
-	magVar[0] = attitudeSettings.MagVar[ATTITUDESETTINGS_MAGVAR_X];
-	magVar[1] = attitudeSettings.MagVar[ATTITUDESETTINGS_MAGVAR_Y];
-	magVar[2] = attitudeSettings.MagVar[ATTITUDESETTINGS_MAGVAR_Z];
-    
+	
 	// Indicates not to expend cycles on rotation
 	if(attitudeSettings.BoardRotation[0] == 0 && attitudeSettings.BoardRotation[1] == 0 &&
 	   attitudeSettings.BoardRotation[2] == 0) {

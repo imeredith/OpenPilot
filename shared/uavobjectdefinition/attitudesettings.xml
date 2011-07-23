@@ -12,7 +12,6 @@
         <field name="BiasCorrectGyro" units="channel" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
         <field name="MagBias" units="mGau" type="float" elementnames="X,Y,Z" defaultvalue="0"/>
         <field name="MagScale" units="(mGau)/lsb" type="float" elementnames="X,Y,Z" defaultvalue="1"/>
-        <field name="MagVar" units="mGau^2" type="float" elementnames="X,Y,Z" defaultvalue="50"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
