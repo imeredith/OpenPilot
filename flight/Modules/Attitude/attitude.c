@@ -91,7 +91,7 @@ static int8_t rotate = 0;
 static bool zero_during_arming = false;
 static bool bias_correct_gyro = true;
 static float magBias[3];
-static float magScala[3];
+static float magScale[3];
 static float magVar[3];
 /**
  * Initialise the module, called on startup
@@ -403,7 +403,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	
 	magScale[0] = attitudeSettings.MagScale[ATTITUDESETTINGS_MAGSCALE_X];
 	magScale[1] = attitudeSettings.MagScale[ATTITUDESETTINGS_MAGSCALE_Y];
-	magScale[2] = attitudeSettings.MagScal[ATTITUDESETTINGS_MAGSCALE_Z];
+	magScale[2] = attitudeSettings.MagScale[ATTITUDESETTINGS_MAGSCALE_Z];
 	
 	magVar[0] = attitudeSettings.MagVar[ATTITUDESETTINGS_MAGVAR_X];
 	magVar[1] = attitudeSettings.MagVar[ATTITUDESETTINGS_MAGVAR_Y];
