@@ -54,6 +54,7 @@
 #include "attitudeactual.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
+#include "hwsettings.h"
 #include "CoordinateConversions.h"
 #include "pios_flash_w25x.h"
 
@@ -264,17 +265,17 @@ static void updateSensors(AttitudeRawData * attitudeRaw)
 
 
     // Mag
-#if defined(PIOS_INCLUDE_HMC5843)
+#if defined(PIOS_INCLUDE_HMC5883)
     /* Configure the flexi port */
 	uint8_t hwsettings_cc_flexiport;
 	HwSettingsCC_FlexiPortGet(&hwsettings_cc_flexiport);
 	
-    if (hwsettings_cc_flexiport == HWSETTINGS_CC_FLEXIPORT_I2C && PIOS_HMC5843_NewDataAvailable()) {
-       	PIOS_HMC5843_ReadMag(attitudeRaw->mags);
+    if (hwsettings_cc_flexiport == HWSETTINGS_CC_FLEXIPORT_I2C && PIOS_HMC5883_NewDataAvailable()) {
+       	PIOS_HMC5883_ReadMag(attitudeRaw->mags);
         //todo rotation?
-        attitudeRaw->mags[ATTITUDERAW_MAGS_X] = mag_data[ATTITUDERAW_MAGS_X] * magScale[ATTITUDERAW_MAG_CALE_X]) + magBias[ATTITUDERAW_MAGBIAS_X]
-	    attitudeRaw->mags[ATTITUDERAW_MAGS_Y] = mag_data[ATTITUDERAW_MAGS_Y] * magScale[ATTITUDERAW_MAG_CALE_Y]) + magBias[ATTITUDERAW_MAGBIAS_Y]
-        attitudeRaw->mags[ATTITUDERAW_MAGS_Z] = mag_data[ATTITUDERAW_MAGS_Z] * magScale[ATTITUDERAW_MAG_CALE_Z]) + magBias[ATTITUDERAW_MAGBIAS_Z]
+        attitudeRaw->mags[ATTITUDERAW_MAGS_X] = attitudeRaw->mags[ATTITUDERAW_MAGS_X] * magScale[ATTITUDESETTINGS_MAGSCALE_X] + magBias[ATTITUDESETTINGS_MAGBIAS_X];
+        attitudeRaw->mags[ATTITUDERAW_MAGS_Y] = attitudeRaw->mags[ATTITUDERAW_MAGS_Y] * magScale[ATTITUDESETTINGS_MAGSCALE_Y] + magBias[ATTITUDESETTINGS_MAGBIAS_Y];
+        attitudeRaw->mags[ATTITUDERAW_MAGS_Z] = attitudeRaw->mags[ATTITUDERAW_MAGS_Z] * magScale[ATTITUDESETTINGS_MAGSCALE_Z] + magBias[ATTITUDESETTINGS_MAGBIAS_Z];
 	}
 #endif
 

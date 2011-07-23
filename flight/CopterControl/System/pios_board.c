@@ -1027,12 +1027,9 @@ void PIOS_Board_Init(void) {
 			if (PIOS_I2C_Init(&pios_i2c_main_adapter_id, &pios_i2c_main_adapter_cfg)) {
 				PIOS_Assert(0);
 			}
-#if defined(PIOS_INCLUDE_HMC5843)
-            /* Magnetic sensor system */
-            if (PIOS_I2C_Init(&pios_i2c_main_adapter_id, &pios_i2c_main_adapter_cfg)) {
-            	PIOS_DEBUG_Assert(0);
-            }
-            PIOS_HMC5843_Init();
+#if defined(PIOS_INCLUDE_HMC5883)
+            /* Mag */
+            PIOS_HMC5883_Init();
 #endif
 		}
 #endif	/* PIOS_INCLUDE_I2C */
